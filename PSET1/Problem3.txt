@@ -1,0 +1,17 @@
+> ### PROBLEM 3
+> 
+> set.seed(32923)
+> y <- rnorm(5, mean=0, sd=1)
+> y_mat <- matrix(rnorm(5*100000, mean=0, sd=1), 100000, 5)
+> y_b <- apply(y_mat, 1, sd)
+> 
+> s <- mean(y_b)
+> s_0 <- s * sqrt( (5 - 1) / (5) )
+> s_1 <- s * sqrt( (5 - 1) / (5 - 1.5) )
+> cat("estimates: ", s, s_0, s_1)
+estimates:  0.939902 0.8406739 1.004797> 
+> bias_s <- s - 1
+> bias_s_0 <- s_0 - 1
+> bias_s_1 <- s_1 - 1
+> cat("bias: ", bias_s, bias_s_0, bias_s_1)
+bias:  -0.06009804 -0.1593261 0.00479746

@@ -1,0 +1,15 @@
+> ### PROBLEM 4
+> 
+> software_data <- read.csv("./Dev/non_parametric_methods/PSET1/software.csv")
+> software_data <- software_data[,1]
+> lambda <- 1 / mean(software_data)
+> 
+> y<-seq(from=0,to=120,by= 0.01)
+> 
+> log_software_data <- log(software_data)
+> 
+> log_mean <- mean(log_software_data)
+> log_sd <- sd(log_software_data)
+> plot(y, pexp(y, rate = lambda), type="l", xlab="y", ylab="F(y)")
+> plot(ecdf(software_data), verticals=T, cex=0.5, xlab="y", ylab="F(y)", add=T)
+> lines(y, plnorm(y, meanlog = log_mean, sdlog = log_sd), type="l", lty=3)

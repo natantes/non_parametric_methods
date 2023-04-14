@@ -1,0 +1,27 @@
+> ### PROBLEM 6
+> 
+> software_data <- read.csv("./Dev/non_parametric_methods/PSET1/software.csv")
+> software_data <- software_data[,1]
+> 
+> software_mean <- mean(software_data)
+> software_sd <- sd(software_data)
+> 
+> t_calculator <- function(x, ind){mean(software_data[ind]) / sd(software_data)}
+> 
+> t <- t_calculator(software_data, 1:length(software_data))
+> t
+[1] 0.6433204
+> 
+> library(boot)
+> boot(software_data, t_calculator, 100000)
+
+ORDINARY NONPARAMETRIC BOOTSTRAP
+
+
+Call:
+boot(data = software_data, statistic = t_calculator, R = 1e+05)
+
+
+Bootstrap Statistics :
+     original        bias    std. error
+t1* 0.6433204 -0.0001466096  0.08651594

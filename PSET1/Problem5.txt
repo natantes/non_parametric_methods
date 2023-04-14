@@ -1,0 +1,46 @@
+> ### PROBLEM 5
+> 
+> peabody_data <- read.csv("./Dev/non_parametric_methods/PSET1/Peabody.csv")
+> peabody_data <- peabody_data[,1]
+> 
+> peabody_mean <- mean(peabody_data)
+> peabody_sd <- sqrt(var(peabody_data) / length(peabody_data))
+> 
+> peabody_mean
+[1] 46.41441
+> peabody_sd
+[1] 1.068196
+> 
+> peabody_median <- median(peabody_data)
+> peabody_median
+[1] 42
+> 
+> set.seed(32923)
+> Median <- function(x, ind){median(x[ind])}
+> Mean_Median_Diff <- function(x, ind){mean(x[ind]) - median(x[ind])}
+> 
+> library(boot)
+> boot(peabody_data, Median, 100000)
+
+ORDINARY NONPARAMETRIC BOOTSTRAP
+
+
+Call:
+boot(data = peabody_data, statistic = Median, R = 1e+05)
+
+
+Bootstrap Statistics :
+    original    bias    std. error
+t1*       42 -0.562705    1.597121
+> boot(peabody_data, Mean_Median_Diff, 100000)
+
+ORDINARY NONPARAMETRIC BOOTSTRAP
+
+
+Call:
+boot(data = peabody_data, statistic = Mean_Median_Diff, R = 1e+05)
+
+
+Bootstrap Statistics :
+    original    bias    std. error
+t1* 4.414414 0.5652832    1.050518
