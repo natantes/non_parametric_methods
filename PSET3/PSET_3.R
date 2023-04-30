@@ -21,14 +21,16 @@ plot(density(software_data, bw=14, kernel="g"), main="Kernel Density Estimate of
 ### PROBLEM 2
 
 geyser_data <- read.csv("./Dev/non_parametric_methods/data/geyser.csv")
-geyser_data <- as.numeric(geyser_data[1])
-density(geyser_data, bw="nrd", kernel="g")$bw
-density(geyser_data, bw="nrd0", kernel="g")$bw
-density(geyser_data, bw="SJ", kernel="g")$bw
-density(geyser_data, bw="ucv", kernel="g")$bw
+density(geyser_data$duration, bw="nrd", kernel="g")$bw
+density(geyser_data$duration, bw="nrd0", kernel="g")$bw
+density(geyser_data$duration, bw="SJ", kernel="g")$bw
+density(geyser_data$duration, bw="ucv", kernel="g")$bw
+plot(density(geyser_data$duration, bw="nrd"), main="Kernel Density Estimate of Software Data (Smoothing Paramater with)")
+plot(density(geyser_data$duration, bw="nrd0"), main="Kernel Density Estimate of Software Data (Smoothing Paramater with)")
+plot(density(geyser_data$duration, bw="SJ"), main="Kernel Density Estimate of Software Data (Smoothing Paramater with)")
+plot(density(geyser_data$duration, bw="ucv"), main="Kernel Density Estimate of Software Data (Smoothing Paramater with)")
 
 ### PROBLEM 4
-# None
 
 ### PROBLEM 5
-hist(software_data,  breaks="FD", freq=F)
+
