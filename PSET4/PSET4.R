@@ -1,4 +1,5 @@
 
+setwd("/")
 
 ### PROBLEM 1
 
@@ -9,21 +10,59 @@ sm.density(geyser_data, display="contour")
 sm.density(geyser_data, method="cv")
 sm.density(geyser_data, method="cv", display="contour")
 
+### PROBLEM 3
+
+library(sm)
+motor_data <- read.csv("./Dev/non_parametric_methods/data/motor.csv")
+sm.regression(motor_data$accel, motor_data$time, h=2.5)
+sm.regression(motor_data$accel, motor_data$time, h=5)
+sm.regression(motor_data$accel, motor_data$time, h=7.5)
+sm.regression(motor_data$accel, motor_data$time, h=10)
+sm.regression(motor_data$accel, motor_data$time, h=12.5)
+sm.regression(motor_data$accel, motor_data$time, h=15)
+sm.regression(motor_data$accel, motor_data$time, method="cv")
 
 ### PROBLEM 4
 
 library(sm)
 geyser_data <- read.csv("./Dev/non_parametric_methods/data/geyser.csv")
-sm.regression(geyser_data$waiting, geyser_data$duration, method="cv", se=T)
+out <- sm.regression(geyser_data$waiting, geyser_data$duration, method="cv", se=T)
 
-h2df<- function(h_target, x, y){
+h2df <- function(h_target, x, y){
    f<-function(df){
    sm.regression(x, y, df=df, display="none")$h - h_target
-  } hmin<-sm.regression(x, y, df=length(x), display="none")$h
+  } 
+  hmin<-sm.regression(x, y, df=length(x), display="none")$h
   hmax<-sm.regression(x, y, df=2.01, display="none")$h
   if ((h_target<= hmax)&(h_target >= hmin)){
   dfroot<-uniroot(f, c(2.01, length(x)), tol=0.005)$root
   return(round(dfroot, 2))
   }
-  else return("out of range")
+  else return("out of range")}
+
+h <- sm.regression(geyser_data$waiting, geyser_data$duration, method="cv", se=T)$h
+h2df(h, geyser_data$waiting, geyser_data$duration)
+
+### PROBLEM 5
+
+lidar_data <- read.csv("./Dev/non_parametric_methods/data/lidar.csv")
+out <- sm.regression(lidar_data$range, lidar_data$logratio, method="cv")
+
+approx(out$eval.points, out$estiamte, xout=500)
+approx(out$eval.points, out$estiamte, xout=550)
+approx(out$eval.points, out$estiamte, xout=600)
+
+h2df <- function(h_target, x, y){
+  f<-function(df){
+    sm.regression(x, y, df=df, display="none")$h - h_target
+  } 
+  hmin<-sm.regression(x, y, df=length(x), display="none")$h
+  hmax<-sm.regression(x, y, df=2.01, display="none")$h
+  if ((h_target<= hmax)&(h_target >= hmin)){
+    dfroot<-uniroot(f, c(2.01, length(x)), tol=0.005)$root
+    return(round(dfroot, 2))
   }
+  else return("out of range")}
+
+h <- sm.regression(lidar_data$range, lidar_data$logratio, method="cv")$h
+h2df(h, lidar_data$range, lidar_data$logratio)
