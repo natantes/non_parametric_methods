@@ -10,6 +10,30 @@ sm.density(geyser_data, display="contour")
 sm.density(geyser_data, method="cv")
 sm.density(geyser_data, method="cv", display="contour")
 
+
+### PROBLEM 2
+
+library(sm)
+bills_df <- read.csv("./Dev/non_parametric_methods/data/bills.csv")
+names(bills_df)
+forged <- bills_df[bills_df$real == 0,]
+real <- bills_df[bills_df$real == 1,]
+lapply(forged[,c('width','len')], as.numeric)
+lapply(real[,c('width','len')], as.numeric)
+
+denF <- sm.density(forged$width, forged$len, method="cv", display="contour", 
+           xlim=c(7, 12.5), ylim=c(138.75, 142.25))
+denR <- sm.density(forged$width, forged$len, method="cv", display="contour", 
+                   xlim=c(7, 12.5), ylim=c(138.75, 142.25))
+
+prob_forged <- denF$estimate/(denF$estimate + denR$estimate)
+
+contour(x=denF$eval.points[,1], y=denR$eval.points[,2], z=prob_forged)
+
+library(pracma)
+interp2(x=denF$eval.points[,1], y=denR$eval.points[,2], Z=t(prob_forged)
+        xp=8, yp=140.2, method="linear")
+
 ### PROBLEM 3
 
 library(sm)
