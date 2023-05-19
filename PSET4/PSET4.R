@@ -15,15 +15,16 @@ sm.density(geyser_data, method="cv", display="contour")
 
 library(sm)
 bills_df <- read.csv("./Dev/non_parametric_methods/data/bills.csv")
-names(bills_df)
 forged <- bills_df[bills_df$real == 0,]
-real <- bills_df[bills_df$real == 1,]
-lapply(forged[,c('width','len')], as.numeric)
-lapply(real[,c('width','len')], as.numeric)
+reall <- bills_df[bills_df$real == 1,]
+invisible(lapply(forged[,c('width','len')], as.numeric))
+invisible(lapply(real[,c('width','len')], as.numeric))
+forged <- subset(forged, select = -c(real) );
+reall <- subset(reall, select = -c(real) );
 
-denF <- sm.density(forged$width, forged$len, method="cv", display="contour", 
+denF <- sm.density(forged, method="cv", display="contour", 
            xlim=c(7, 12.5), ylim=c(138.75, 142.25))
-denR <- sm.density(forged$width, forged$len, method="cv", display="contour", 
+denR <- sm.density(reall, method="cv", display="contour", 
                    xlim=c(7, 12.5), ylim=c(138.75, 142.25))
 
 prob_forged <- denF$estimate/(denF$estimate + denR$estimate)
@@ -31,8 +32,12 @@ prob_forged <- denF$estimate/(denF$estimate + denR$estimate)
 contour(x=denF$eval.points[,1], y=denR$eval.points[,2], z=prob_forged)
 
 library(pracma)
-interp2(x=denF$eval.points[,1], y=denR$eval.points[,2], Z=t(prob_forged)
+interp2(x=denF$eval.points[,1], y=denR$eval.points[,2], Z=t(prob_forged),
         xp=8, yp=140.2, method="linear")
+interp2(x=denF$eval.points[,1], y=denR$eval.points[,2], Z=t(prob_forged),
+        xp=9, yp=140.5, method="linear")
+interp2(x=denF$eval.points[,1], y=denR$eval.points[,2], Z=t(prob_forged),
+        xp=9.8, yp=140.3, method="linear")
 
 ### PROBLEM 3
 
